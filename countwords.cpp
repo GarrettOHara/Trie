@@ -1,4 +1,14 @@
+/**
+ * This Program was written by:
+ * 
+ * Garrett O'Hara cssc3724 RedId: 822936303
+ * 
+ * CS 480 | Professor Shen | January 2022
+ **/
+#include <map>
+#include <vector>
 #include <fstream>
+#include <sstream>
 #include <iostream>
 #include "trie_node.h"
 
@@ -8,20 +18,93 @@ using namespace std;
 int insertme(string);                             // FUNCTION PROTOTYPE
 int searchme(string);                             // FUNCTION PROTOTYPE
 
+bool insertme(vector<string> tokens){
+  return false;
+}
 
-int read_file(char *arg){
-  const char *path = &arg[1];
-  cout << "THIS IS THE PATH: " << path << endl;
+bool searchme(vector<string> tokens){
+  return false;
+}
+
+void print_dic(vector<vector<string> > tokenized){
+  for(int i = 0; i < tokenized.size(); i++){
+      for(int j = 0; j < tokenized[i].size(); j++){
+        cout << tokenized[i][j] << endl;
+      }
+    }
+}
+
+/**
+ * @brief Splits the input string by deliminator
+ * 
+ * @param str   input to be split
+ * @param delim what to split input by
+ * @return vector<string> return split string
+ */
+vector<string> split(const string str, char delim) {
+  vector<string> result;
+  istringstream ss(str);
+  string token;
+
+  while (getline(ss, token, delim)) {
+    if (!token.empty()) {
+      result.push_back(token);
+    }
+  }
+  return result;
+}
+
+
+/**
+ * @brief Read the file in from the argument path
+ * MODES:
+ *  - insertme: insert the tokens into the 
+ *      trie structure
+ *  - searchme: serach frequency of tokens and 
+ *      print to standard out
+ * 
+ * @param path path of input text
+ * @param mode which mode to use 
+ */
+void read(const char* path, const string mode){
+
   ifstream file(path);
-  
+  string line;
+
   if(file.is_open()){
-    string line; 
     while(getline(file,line)){
-      printf("%s",line.c_str());
+      vector<string> tokens;
+      tokens = split(line, ' ');
+
+      if(mode=="insert"){
+        insertme(tokens);
+      } else {
+        searchme(tokens);
+      }
     }
     file.close();
   }
+  
+  return;
+}
 
+
+vector<vector<string> > read_file(const char* path){
+
+  ifstream file(path);
+  
+  vector<vector<string> > tokenized;
+  string line;
+
+  if(file.is_open()){
+    while (getline(file,line)){
+      vector<string> temp;
+      temp = split(line, ' ');
+      tokenized.push_back(temp);
+    }
+    file.close();
+  }
+  return tokenized;
 }
 
 int main(int argc, char *argv[]){
@@ -31,9 +114,11 @@ int main(int argc, char *argv[]){
     if(argc != 3)
       throw("Invalid amount of arguments");
     
-    cout << argv[1] << " " << argv[2] << endl;
+    const char *path = argv[1];
+    vector<vector<string> > tokenized;
+    tokenized = read_file(path);
+    print_dic(tokenized);
 
-    read_file(argv[1]);
 
     // HEAP INSTANTIATION
     trie_node* A = new trie_node();
