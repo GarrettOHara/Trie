@@ -5,11 +5,11 @@
  * 
  * CS 480 | Professor Shen | January 2022
  **/
-#include <map>
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <cstring>
 #include "trie_node.h"
 
 using namespace trie;
@@ -32,6 +32,11 @@ void print_dic(vector<vector<string> > tokenized){
         cout << tokenized[i][j] << endl;
       }
     }
+}
+void print_tokens(vector<string> tokens){
+  for(int i = 0; i < tokens.size(); i++){
+    cout << tokens[i] << endl;
+  }
 }
 
 /**
@@ -89,19 +94,22 @@ void read(const char* path, const string mode){
 }
 
 
-vector<vector<string> > read_file(const char* path){
+vector<string> read_file(const char* path){
 
   ifstream file(path);
   
-  vector<vector<string> > tokenized;
+  vector<string> tokenized;
   string line;
+  string temp = "";
 
   if(file.is_open()){
     while (getline(file,line)){
-      stringstream ss(line);
-      vector<string> temp;
-      temp = split(line, " ,./<>?;:\"`1234567890-=~!@#$%^&*()_+[]\\{}|");
-      tokenized.push_back(temp);
+      char delimiters[] = " ,./<>?;:\"`1234567890-=~!@#$%^&*()_+[]\\{}|";
+      char* token = strtok (&line[0], delimiters);
+      while(token != NULL){
+          tokenized.push_back(token);
+          token = strtok (NULL, delimiters);
+      }
     }
     file.close();
   }
@@ -116,9 +124,9 @@ int main(int argc, char *argv[]){
       throw("Invalid amount of arguments");
     
     const char *path = argv[1];
-    vector<vector<string> > tokenized;
+    vector<string> tokenized;
     tokenized = read_file(path);
-    print_dic(tokenized);
+    print_tokens(tokenized);
 
 
     // HEAP INSTANTIATION
