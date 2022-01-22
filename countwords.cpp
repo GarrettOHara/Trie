@@ -15,8 +15,8 @@
 using namespace trie;
 using namespace std;
 
-int insertme(string);                             // FUNCTION PROTOTYPE
-int searchme(string);                             // FUNCTION PROTOTYPE
+// void insertme(trie_node, string);                // FUNCTION PROTOTYPE
+// int  searchme(string);                           // FUNCTION PROTOTYPE
 
 bool insertme(vector<string> tokens){
   return false;
@@ -88,6 +88,8 @@ void read(const char* path, const string mode){
       }
     }
     file.close();
+  } else {
+    throw("Cannot open file please check file path");
   }
   
   return;
@@ -116,6 +118,15 @@ vector<string> read_file(const char* path){
   return tokenized;
 }
 
+void build_trie(vector<string>tokens){
+  trie_node *root = new trie_node();
+  for(int i = 0; i < tokens.size(); i++){
+    cout << tokens[i] << endl;
+    string str = tokens[i];
+    root->insertme(str);
+  }
+}
+
 int main(int argc, char *argv[]){
   const string err = "\n\nExiting program...\n";
   try{
@@ -126,7 +137,9 @@ int main(int argc, char *argv[]){
     const char *path = argv[1];
     vector<string> tokenized;
     tokenized = read_file(path);
-    print_tokens(tokenized);
+    //print_tokens(tokenized);
+    build_trie(tokenized);
+    
 
 
     // HEAP INSTANTIATION
@@ -144,6 +157,10 @@ int main(int argc, char *argv[]){
     "\n  - Path to dictionary"  <<
     "\n  - Path to sample text" <<
     err << endl;
+  } catch ( const exception& e ) {
+    cerr << "ERROR: " << e.what() << err << endl;
+  } catch (...) {
+    cout << "Exception occurred";
   }
   return 0;
 }
