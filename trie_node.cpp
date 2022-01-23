@@ -1,13 +1,26 @@
+// SOURCE FILE
+
 #include "trie_node.h"
+#include <ios>
 #include <iostream>
 
 using namespace std;
 
-trie_node::trie_node(){                       // CONSTRUCTOR
-    this->isWord = false;
+/* CONSTRUCTOR */
+trie_node::trie_node(bool isWord) {
     for(int i = 0; i < size; i++){
-        character[i] = NULL;
+        this->character[i] = nullptr;
     }
+}
+
+/* OUT OF SCOPE HEAP ALLOCATION DELETION */
+trie_node::~trie_node() {
+    delete[] character;
+}
+
+/* SETTER */
+void trie_node::setword(bool isWord){
+    this->isWord = isWord;
 }
 
 void trie_node::insertme(string token){
@@ -18,16 +31,9 @@ void trie_node::insertme(string token){
         
         node = node->character[token[i]];
     }
-    node->isWord = true;
+    node->setword(true);
 }
 
-int trie_node::searchme(string token){
-    if(this==NULL)
-        return 0;
-    
-    int count = 0;    
-    trie_node* node = new trie_node();
-
+int searchme(string token){
     return 0;
-
 }

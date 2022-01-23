@@ -1,19 +1,23 @@
-#ifndef TRINODE_H                      /* INCLUDE GUARD */
-#define TRINODE_H 
+#ifndef TRIENODE_H                                /* INCLUDE GUARD */
+#define TRIENODE_H 
+#include <iostream>
 
 class trie_node {
-  private:                             // PRIVATE FIELDS
+  private:                                       // PRIVATE FIELDS
     static const int size = 27;
-
-  public:                              // PUBLIC FIELDS
+    trie_node *character[size];
     bool isWord;
-    trie_node* character[size];
+    //trie_node *children[size];
 
-    trie_node();                       // CONSTRUCTOR
+  public:                                        // PUBLIC FIELDS
+    trie_node(bool isWord = false);              // CONSTRUCTOR
+    ~trie_node();                                // DESCTRUCTOR
+    
+    //struct trie_node *next[size];
 
-    void insertme(std::string);        // FUNCTION PROTOTYPE
-    int  searchme(std::string);        // FUNCTION PROTOTYPE
+    void setword(bool);
+    void insertme(std::string);                  // FUNCTION PROTOTYPE
+    int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };
 
-
-#endif                                 // TRINODE_H
+#endif                                           // TRIENODE_H
