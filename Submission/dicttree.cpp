@@ -1,5 +1,12 @@
-// SOURCE FILE
+/**
+ * This Program was written by:
+ * 
+ * Garrett O'Hara cssc1136 RedId: 822936303
+ * 
+ * CS 480 | Professor Shen | January 2022
+ **/
 
+// SOURCE FILE
 #include "dicttree.h"
 #include <ios>
 #include <iostream>

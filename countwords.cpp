@@ -42,10 +42,25 @@ vector<string> read_file(const char* path){
   return tokenized;
 }
 
+/* VERY WEIRD INSTANCE WITH AND WITHOUT THE AS VECTOR */
 void build_trie(trie_node &root, vector<string>tokens){
+  
+  //vector<string> as;
+  
   for(int i = 0; i < tokens.size(); i++){
+    
+    /* 6817 WITHOUT 6816 WITH */
+    //char check = tokens[i][0];
+    
+    // if(tolower(check)=='a')
+    //   as.push_back(tokens[i]);
+
     root.insertme(tokens[i]);
   }
+  // for(int i = 0; i < as.size(); i++){
+  //   cout << as[i] << endl;
+  // }
+  // cout << as.size() << endl;
   return;
 }
 

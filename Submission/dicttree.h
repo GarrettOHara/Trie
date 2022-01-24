@@ -1,4 +1,11 @@
-#ifndef DICTTREE_H_                                /* INCLUDE GUARD */
+/**
+ * This Program was written by:
+ * 
+ * Garrett O'Hara cssc1136 RedId: 822936303
+ * 
+ * CS 480 | Professor Shen | January 2022
+ **/
+#ifndef DICTTREE_H_                              /* INCLUDE GUARD */
 #define DICTTREE_H_ 
 #include <iostream>
 
@@ -16,8 +23,8 @@ class trie_node {
     trie_node(bool isWord = false);              // CONSTRUCTOR
     ~trie_node();                                // DESCTRUCTOR    
 
-    void setword(bool);
-    bool  getword();
+    void setword(bool);                          // FUNCTION PROTOTYPE
+    bool getword();                              // FUNCTION PROTOTYPE
     void insertme(std::string);                  // FUNCTION PROTOTYPE
     int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };
