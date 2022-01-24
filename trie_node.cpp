@@ -33,10 +33,6 @@ bool trie_node::getword(){
     return this->isWord;
 }
 
-// trie_node trie_node::getnode(char ch){
-//     return this->character[ch];
-// }
-
 int static proccesschar(char ch, int size){
     char tmp = ch;
     if(tmp == 39){
@@ -53,19 +49,29 @@ void trie_node::insertme(string token){
     for(int i = 0; i < token.length(); i++){
         
         /* PROCESS CHARACTER */
-        int tmp = proccesschar(token[i],size);
+        //int tmp = proccesschar(token[i],size);
+        char tmp = token[i];
+        if(tmp == 39){
+            tmp = size-1;
+        } else {
+            tmp = tolower(token[i])-'a';
+        }
         
         /* CONSTRUCT NEW NODE IF NULL */
         if(node->character[tmp] == nullptr){
             node->character[tmp] = new trie_node();
         }
-        //cout << node->character[tmp] << endl;
+
+        // for(int i = 0; i < size; i++){
+        //     cout << node->character[tmp] << endl;
+        // }
+        cout << node->character[tmp] << " " << token[i] << " : " << int(tmp) << endl;        
+        //cout << token[i] << " : " << tmp << endl;
         /* MOVE TO NEW NODE */
         node = node->character[tmp];
+
     }
-    for(int i = 0; i < size; i++){
-        cout << node->character[i] << endl;
-    }
+    
     /* SET END OF WORD */
     node->setword(true);
     cout << "INSERTED: " << token << endl;

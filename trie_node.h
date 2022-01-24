@@ -19,6 +19,5 @@ class trie_node {
     void insertme(std::string);                  // FUNCTION PROTOTYPE
     int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };
- //trie_node *children[size];
- //struct trie_node *next[size];
+
 #endif                                           // TRIENODE_H
