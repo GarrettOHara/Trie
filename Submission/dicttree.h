@@ -20,8 +20,8 @@ class dicttree {
     int DFS(dicttree*, int);
    
   public:                                        // PUBLIC FIELDS
-    dicttree(bool isWord = false);              // CONSTRUCTOR
-    ~dicttree();                                // DESCTRUCTOR    
+    dicttree(bool isWord = false);               // CONSTRUCTOR
+    ~dicttree();                                 // DESCTRUCTOR    
 
     void setword(bool);
     bool  getword();

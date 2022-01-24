@@ -1,7 +1,7 @@
 /**
  * This Program was written by:
  * 
- * Garrett O'Hara cssc3724 RedId: 822936303
+ * Garrett O'Hara | cssc1136 | RedId: 822936303
  * 
  * CS 480 | Professor Shen | January 2022
  **/
@@ -38,21 +38,13 @@ bool dicttree::getword(){
     return this->isWord;
 }
 
+/* INDEX CHARACTERS 0-26 */
 int static proccesschar(char ch, int size){
     char tmp = ch;
     if(tmp == '\''){
         tmp = size-1;
     } else {
         tmp = tolower(ch)-'a';
-    }
-    return tmp;
-}
-int static proccesscharin(char ch, int size){
-    char tmp = ch;
-    if(tmp == '\''){
-        tmp = size-1;
-    } else {
-        tmp = ch -'a';
     }
     return tmp;
 }
@@ -63,8 +55,7 @@ void dicttree::insertme(string token){
     for(int i = 0; i < token.length(); i++){
         
         /* PROCESS CHARACTER */
-        int tmp = proccesscharin(token[i],size);
-        
+        int tmp = proccesschar(token[i],size);
         
         /* CONSTRUCT NEW NODE IF NULL */
         if(node->character[tmp] == nullptr){
@@ -73,7 +64,6 @@ void dicttree::insertme(string token){
 
         /* MOVE TO NEW NODE */
         node = node->character[tmp];
-
     }
     
     /* SET END OF WORD */
@@ -84,11 +74,12 @@ void dicttree::insertme(string token){
 int dicttree::DFS(dicttree* root){
     if(root==nullptr)
         return 0;
+
     int sum = 0;
+
     if(root->getword())
         sum++;
 
-    int words = 0;
     for(int i = 0; i < size; i++){        
         if(root->character[i]!=nullptr){
             sum += DFS(root->character[i]);
@@ -127,6 +118,7 @@ int dicttree::BFS(dicttree* root){
     int count = 0;
     queue<dicttree*> q;
     q.push(root);
+
     while(!q.empty()){
         root = q.front();
         if(root->isWord)
@@ -145,17 +137,15 @@ int dicttree::BFS(dicttree* root){
 /* SEARCH OCCURANCES OF PREFIX IN TREE */
 int dicttree::searchme(string token){
     dicttree* node = this;
-    int count = 0;
     
     /* CRAWL T0 END OF PREFIX */
     for(int i = 0; i < token.length(); i++){
-        //cout << "NODE AT: " << token[i] << " ";
+
         int tmp = proccesschar(token[i],size);
-        //cout << tmp << endl;
 
         /* IF IT DOESN'T EXIST RETURN COUNT OF 0 */
         if(node->character[tmp]==nullptr)
-            return count;
+            return 0;
         
         /* GO TO NEXT CHARACTER IN PREFIX */    
         node = node->character[tmp];
