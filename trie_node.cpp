@@ -37,58 +37,55 @@ bool trie_node::getword(){
 //     return this->character[ch];
 // }
 
+int static proccesschar(char ch, int size){
+    char tmp = ch;
+    if(tmp == 39){
+        tmp = size-1;
+    } else {
+        tmp = tolower(ch)-'a';
+    }
+    return tmp;
+}
+
 /* INSERT WORD */
 void trie_node::insertme(string token){
     trie_node* node = this;
     for(int i = 0; i < token.length(); i++){
         
         /* PROCESS CHARACTER */
-        char tmp = token[i];
-        if(tmp == 39){
-            tmp = size-1;
-        } else {
-            tmp = tolower(token[i])-'a';
-        }
-
+        int tmp = proccesschar(token[i],size);
+        
         /* CONSTRUCT NEW NODE IF NULL */
         if(node->character[tmp] == nullptr){
             node->character[tmp] = new trie_node();
         }
-        
+        //cout << node->character[tmp] << endl;
         /* MOVE TO NEW NODE */
         node = node->character[tmp];
     }
-    
+    for(int i = 0; i < size; i++){
+        cout << node->character[i] << endl;
+    }
     /* SET END OF WORD */
     node->setword(true);
+    cout << "INSERTED: " << token << endl;
 }
 
 /* COUNT WITH DEPTH FIRST SEARCH */
-int trie_node::DFS(trie_node root, char ch, int count){
-
-    if(root.getword())
+int trie_node::DFS(trie_node root, int count, int size){
+    if(root.getword()){
+        cout << "END WORD" << endl;
         count++;
+    }
     
-    for(int i = 0; i < 27; i++){
-        char ch = i;
-        if(root.character[ch]!=nullptr){
-            root = root.character[ch];
-            trie_node::DFS(root, ch, count);
+    for(int i = 0; i < size; i++){
+        if(root.character[i]!=nullptr){
+            root = root.character[i];
+            trie_node::DFS(root, count, size);
         }
     }
 
     return count;
-
-    // /* BASE CASE */
-    // if(root == nullptr) return count;
-
-    // /* WORD FOUND... CONTINUE */
-    // else if(root.getword())
-    //     return trie_node::DFS(root.getnode(ch), ch, count+1);
-    
-    // /* NO WORD... CONTINUE SEARCH */
-    // else
-    //     return trie_node::DFS(root.getnode(ch), ch, count);
 }
 
 /* SEARCH OCCURANCES OF PREFIX IN TREE */
@@ -98,20 +95,30 @@ int trie_node::searchme(string token){
     
     /* CRAWL T0 END OF PREFIX */
     for(int i = 0; i < token.length(); i++){
-        cout << "NODE AT: " << token[i];
+        cout << "NODE AT: " << token[i] << " ";
+
+        int tmp = proccesschar(token[i],size);
+
+        cout << tmp << endl;
+
+
         /* IF IT DOESN'T EXIST RETURN COUNT OF 0 */
-        if(node->character[token[i]]==nullptr)
+        if(node->character[tmp]==nullptr)
             return count;
         
         /* GO TO NEXT CHARACTER IN PREFIX */    
-        node = node->character[token[i]];
+        node = node->character[tmp];
     }
+    cout << "\n\nSTARTING DFS\n\n" << endl;
 
     /* USE DFS TO COUNT WORDS WITH PREFIX */
-    for(int i = 0; i < size; i++){
-        count += DFS(node, i, count);
-    }
+    // for(int i = 0; i < size; i++){
+    //     int words = 0;
+    //     if(node->character[i] != nullptr)
+    //         count += DFS(node->character[i], words, size);
+    // }
 
     /* RETURN COUNT OF PREFIX */
-    return count;
+    //return count;
+    return DFS(node, count, size);
 }

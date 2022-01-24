@@ -1,1 +1,8 @@
-a ask apple
+a
+ask
+apple
+bake
+baseball
+baseballs'
+baseballs's
+baseballs'ss

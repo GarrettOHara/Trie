@@ -69,3 +69,27 @@ void print_dic(vector<vector<string> > tokenized){
       }
     }
 }
+
+
+// class trie_node{
+//   trie_node(){};
+//   trie_node getnode(char);
+//   bool getword();
+// };
+// int main(){
+//   trie_node *node;
+//   DFS(&node, ' ',0);
+//   return 0;
+// }
+int DFS(trie_node root, char ch, int count){
+   /* BASE CASE */
+    if(root == nullptr) return count;
+
+    /* WORD FOUND... CONTINUE */
+    else if(root.getword())
+        return trie_node::DFS(root.getnode(ch), ch, count+1);
+    
+    /* NO WORD... CONTINUE SEARCH */
+    else
+        return trie_node::DFS(root.getnode(ch), ch, count);
+}

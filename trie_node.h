@@ -8,7 +8,7 @@ class trie_node {
     trie_node *character[size];
     bool isWord;
 
-    int DFS(trie_node, char, int);
+    int DFS(trie_node, int, int);
    
   public:                                        // PUBLIC FIELDS
     trie_node(bool isWord = false);              // CONSTRUCTOR
