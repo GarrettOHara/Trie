@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include <cstring>
-#include "trie_node.h"
+#include "dicttree.h"
 
 using namespace std;
 
@@ -30,7 +30,7 @@ vector<string> read_file(const char* path){
 
   if(file.is_open()){
     while (getline(file,line)){
-      char delimiters[] = " \n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~";
+      char delimiters[] = " ,./<>?;:\"`1234567890-=~!@#$%^&*()_+[]\\{}|";
       char* token = strtok (&line[0], delimiters);
       while(token != NULL){
           tokenized.push_back(token);
