@@ -7,17 +7,18 @@ class trie_node {
     static const int size = 27;
     trie_node *character[size];
     bool isWord;
-    //trie_node *children[size];
 
+    int DFS(trie_node, char, int);
+   
   public:                                        // PUBLIC FIELDS
     trie_node(bool isWord = false);              // CONSTRUCTOR
-    ~trie_node();                                // DESCTRUCTOR
-    
-    //struct trie_node *next[size];
+    ~trie_node();                                // DESCTRUCTOR    
 
     void setword(bool);
+    bool  getword();
     void insertme(std::string);                  // FUNCTION PROTOTYPE
     int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };
-
+ //trie_node *children[size];
+ //struct trie_node *next[size];
 #endif                                           // TRIENODE_H

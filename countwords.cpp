@@ -14,17 +14,6 @@
 
 using namespace std;
 
-// void insertme(trie_node, string);                // FUNCTION PROTOTYPE
-// int  searchme(string);                           // FUNCTION PROTOTYPE
-
-// bool insertme(vector<string> tokens){
-//   return false;
-// }
-
-// bool searchme(vector<string> tokens){
-//   return false;
-// }
-
 void print_tokens(vector<string> tokens){
   for(int i = 0; i < tokens.size(); i++){
     cout << tokens[i] << endl;
@@ -53,13 +42,20 @@ vector<string> read_file(const char* path){
   return tokenized;
 }
 
-void build_trie(vector<string>tokens){
-  trie_node *root = new trie_node();
+void build_trie(trie_node &root, vector<string>tokens){
   for(int i = 0; i < tokens.size(); i++){
-    cout << tokens[i] << endl;
-    string str = tokens[i];
-    root->insertme(str);
+    root.insertme(tokens[i]);
   }
+  return;
+}
+
+void count_words(trie_node &root, vector<string>tokens){
+  for(int i = 0; i < tokens.size(); i++){
+    cout << "FINDING: " << tokens[i] << endl;
+    int count = root.searchme(tokens[i]);
+    cout << tokens[i] << " " << count << endl;
+  }
+  return;
 }
 
 int main(int argc, char *argv[]){
@@ -69,23 +65,18 @@ int main(int argc, char *argv[]){
     if(argc != 3)
       throw("Invalid amount of arguments");
     
-    const char *path = argv[1];
-    vector<string> tokenized;
-    tokenized = read_file(path);
-    print_tokens(tokenized);
-    cout<<"STARTING INSERT"<<endl;
-    build_trie(tokenized);
+    const char *dict_path = argv[1];
+    const char *text_path = argv[2];
+
+    vector<string> dict;
+    vector<string> text;
+
+    dict = read_file(dict_path);
+    text = read_file(text_path);
     
-
-
-    // HEAP INSTANTIATION
-    trie_node* A = new trie_node();
-
-    // STACK INSTANTIATION
-    trie_node B = trie_node();
-    
-    // FREE HEAP SPACE
-    delete A;
+    trie_node root;
+    build_trie(root, dict);    
+    count_words(root, text);
 
   } catch(const char* msg){
     cout << msg << 
