@@ -8,7 +8,9 @@ class trie_node {
     trie_node *character[size];
     bool isWord;
 
-    //int DFS(trie_node, int, int);
+    int BFS(trie_node*, int);
+    int DFS(trie_node*, int, int);
+    int DFS(trie_node*, int);
    
   public:                                        // PUBLIC FIELDS
     trie_node(bool isWord = false);              // CONSTRUCTOR
@@ -16,7 +18,6 @@ class trie_node {
 
     void setword(bool);
     bool  getword();
-    int DFS(trie_node*, int, int);
     void insertme(std::string);                  // FUNCTION PROTOTYPE
     int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };
