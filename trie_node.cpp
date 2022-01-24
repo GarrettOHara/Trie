@@ -16,7 +16,7 @@ trie_node::trie_node(bool isWord) {
 
 /* DECONSTRUCTOR */
 trie_node::~trie_node() {
-    //cout << "DECONSTRUCTING NODE" << endl;
+    // cout << "DECONSTRUCTING NODE" << endl;
     for(int i = 0; i < size; i++){
         if(character[i]!=nullptr)
             delete character[i];
@@ -65,7 +65,7 @@ void trie_node::insertme(string token){
         // for(int i = 0; i < size; i++){
         //     cout << node->character[tmp] << endl;
         // }
-        cout << node->character[tmp] << " " << token[i] << " : " << int(tmp) << endl;        
+        // cout << node->character[tmp] << " " << token[i] << " : " << int(tmp) << endl;        
         //cout << token[i] << " : " << tmp << endl;
         /* MOVE TO NEW NODE */
         node = node->character[tmp];
@@ -74,20 +74,23 @@ void trie_node::insertme(string token){
     
     /* SET END OF WORD */
     node->setword(true);
-    cout << "INSERTED: " << token << endl;
+    // cout << "INSERTED: " << token << "\n" << endl;
 }
 
 /* COUNT WITH DEPTH FIRST SEARCH */
-int trie_node::DFS(trie_node root, int count, int size){
-    if(root.getword()){
-        cout << "END WORD" << endl;
+int trie_node::DFS(trie_node* root, int count, int size){
+    if(root->getword()){
+        // cout << "END WORD" << endl;
         count++;
     }
     
     for(int i = 0; i < size; i++){
-        if(root.character[i]!=nullptr){
-            root = root.character[i];
-            trie_node::DFS(root, count, size);
+        // cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
+        if(root->character[i]!=nullptr){
+            // cout << "SEARCHING" << endl;
+            root = root->character[i];
+            // count+=trie_node::DFS(root, count, size);
+            return trie_node::DFS(root, count, size);
         }
     }
 
@@ -101,11 +104,11 @@ int trie_node::searchme(string token){
     
     /* CRAWL T0 END OF PREFIX */
     for(int i = 0; i < token.length(); i++){
-        cout << "NODE AT: " << token[i] << " ";
+        // cout << "NODE AT: " << token[i] << " ";
 
         int tmp = proccesschar(token[i],size);
 
-        cout << tmp << endl;
+        // cout << tmp << endl;
 
 
         /* IF IT DOESN'T EXIST RETURN COUNT OF 0 */
@@ -115,7 +118,7 @@ int trie_node::searchme(string token){
         /* GO TO NEXT CHARACTER IN PREFIX */    
         node = node->character[tmp];
     }
-    cout << "\n\nSTARTING DFS\n\n" << endl;
+    // cout << "\n\nSTARTING DFS\n\n" << endl;
 
     /* USE DFS TO COUNT WORDS WITH PREFIX */
     // for(int i = 0; i < size; i++){

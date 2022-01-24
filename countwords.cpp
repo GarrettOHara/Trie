@@ -51,7 +51,7 @@ void build_trie(trie_node &root, vector<string>tokens){
 
 void count_words(trie_node &root, vector<string>tokens){
   for(int i = 0; i < tokens.size(); i++){
-    cout << "FINDING: " << tokens[i] << endl;
+    //cout << "FINDING: " << tokens[i] << endl;
     int count = root.searchme(tokens[i]);
     cout << tokens[i] << " " << count << endl;
   }
