@@ -90,25 +90,20 @@ int dicttree::DFS(dicttree* root){
 
 /* ITERATIVE DEPTH FIRST SEARCH */
 int dicttree::DFS(dicttree* root, int count){
-    
     stack<dicttree*> stack;
     stack.push(root);
-    // for(int i = 0; i < size; i++){
-    //     if(root->character[i]!=nullptr)
-    //         stack.push(root->character[i]);
-    // }
+    
     while(!stack.empty()){
-        dicttree* root = stack.top();
-        //root = stack.top();
+        root = stack.top();
+        stack.pop();
+        
         if(root->isWord)
             count++;
 
         for(int i = 0; i < size; i++){
-            cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
             if(root->character[i]!=nullptr)
                 stack.push(root->character[i]);
         }
-        stack.pop();
     }
     return count;
 }
@@ -152,5 +147,6 @@ int dicttree::searchme(string token){
     }
     
     return DFS(node);
-    //return BFS(node);
+    // return DFS(node, 0);
+    // return BFS(node);
 }
