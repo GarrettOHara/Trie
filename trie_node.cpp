@@ -1,12 +1,9 @@
 // SOURCE FILE
-
-#include "trie_node.h"
 #include <ios>
-#include <iostream>
-//#define size = 27
-
 #include <stack>
 #include <queue>
+#include <iostream>
+#include "trie_node.h"
 
 using namespace std;
 
@@ -19,7 +16,6 @@ trie_node::trie_node(bool isWord) {
 
 /* DECONSTRUCTOR */
 trie_node::~trie_node() {
-    // cout << "DECONSTRUCTING NODE" << endl;
     for(int i = 0; i < size; i++){
         if(character[i]!=nullptr)
             delete character[i];
@@ -89,8 +85,8 @@ void trie_node::insertme(string token){
     // cout << "INSERTED: " << token << "\n" << endl;
 }
 
-/* COUNT WITH DEPTH FIRST SEARCH */
-int trie_node::DFS(trie_node* root){//}, int count){
+/* RECURSIVE DEPTH FIRST SEARCH */
+int trie_node::DFS(trie_node* root){
     if(root==nullptr)
         return 0;
     int sum = 0;
@@ -98,45 +94,38 @@ int trie_node::DFS(trie_node* root){//}, int count){
         sum++;
 
     int words = 0;
-    for(int i = 0; i < size; i++){
-        //cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
-        
+    for(int i = 0; i < size; i++){        
         if(root->character[i]!=nullptr){
-            // cout << "SEARCHING" << endl;
-            //root = root->character[i];
-            // count+=trie_node::DFS(root, count, size);
-        
             sum += DFS(root->character[i]);
         }
     }
-    //cout << "WORDS: " << words << endl;
     return sum;
 }
 
-// /* ITERATIVE APPROACH */
-// int trie_node::DFS(trie_node* root){
-//     int count = 0;
-//     stack<trie_node*> stack;
-//     stack.push(root);
-//     // for(int i = 0; i < size; i++){
-//     //     if(root->character[i]!=nullptr)
-//     //         stack.push(root->character[i]);
-//     // }
-//     while(!stack.empty()){
-//         trie_node* root = stack.top();
-//         //root = stack.top();
-//         if(root->isWord)
-//             count++;
+/* ITERATIVE DEPTH FIRST SEARCH */
+int trie_node::DFS(trie_node* root, int count){
+    
+    stack<trie_node*> stack;
+    stack.push(root);
+    // for(int i = 0; i < size; i++){
+    //     if(root->character[i]!=nullptr)
+    //         stack.push(root->character[i]);
+    // }
+    while(!stack.empty()){
+        trie_node* root = stack.top();
+        //root = stack.top();
+        if(root->isWord)
+            count++;
 
-//         for(int i = 0; i < size; i++){
-//             cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
-//             if(root->character[i]!=nullptr)
-//                 stack.push(root->character[i]);
-//         }
-//         stack.pop();
-//     }
-//     return count;
-// }
+        for(int i = 0; i < size; i++){
+            cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
+            if(root->character[i]!=nullptr)
+                stack.push(root->character[i]);
+        }
+        stack.pop();
+    }
+    return count;
+}
 
 /* ITERATIVE BREADTH FIRST SEARCH USING A QUEUE */
 int trie_node::BFS(trie_node* root){

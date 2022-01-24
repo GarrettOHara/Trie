@@ -1,7 +1,7 @@
 /**
  * This Program was written by:
  * 
- * Garrett O'Hara cssc1136 RedId: 822936303
+ * Garrett O'Hara cssc3724 RedId: 822936303
  * 
  * CS 480 | Professor Shen | January 2022
  **/
@@ -30,7 +30,7 @@ vector<string> read_file(const char* path){
 
   if(file.is_open()){
     while (getline(file,line)){
-      char delimiters[] = " ,./<>?;:\"`1234567890-=~!@#$%^&*()_+[]\\{}|";
+      char delimiters[] = " \n\r !\"#$%&()*+,-./0123456789:;<=>?@[\\]^_`{|}~";
       char* token = strtok (&line[0], delimiters);
       while(token != NULL){
           tokenized.push_back(token);
@@ -42,14 +42,29 @@ vector<string> read_file(const char* path){
   return tokenized;
 }
 
-void build_trie(trie_node &root, vector<string>tokens){
+/* VERY WEIRD INSTANCE WITH AND WITHOUT THE AS VECTOR */
+void build_trie(dicttree &root, vector<string>tokens){
+  
+  //vector<string> as;
+  
   for(int i = 0; i < tokens.size(); i++){
+    
+    /* 6817 WITHOUT 6816 WITH */
+    //char check = tokens[i][0];
+    
+    // if(tolower(check)=='a')
+    //   as.push_back(tokens[i]);
+
     root.insertme(tokens[i]);
   }
+  // for(int i = 0; i < as.size(); i++){
+  //   cout << as[i] << endl;
+  // }
+  // cout << as.size() << endl;
   return;
 }
 
-void count_words(trie_node &root, vector<string>tokens){
+void count_words(dicttree &root, vector<string>tokens){
   for(int i = 0; i < tokens.size(); i++){
     //cout << "FINDING: " << tokens[i] << endl;
     int count = root.searchme(tokens[i]);
@@ -74,7 +89,7 @@ int main(int argc, char *argv[]){
     dict = read_file(dict_path);
     text = read_file(text_path);
     
-    trie_node root;
+    dicttree root;
     build_trie(root, dict);    
     count_words(root, text);
 

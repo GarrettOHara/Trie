@@ -9,22 +9,22 @@
 #define DICTTREE_H_ 
 #include <iostream>
 
-class trie_node {
+class dicttree {
   private:                                       // PRIVATE FIELDS
     static const int size = 27;
-    trie_node *character[size];
+    dicttree *character[size];
     bool isWord;
 
-    int BFS(trie_node*, int);
-    int DFS(trie_node*, int, int);
-    int DFS(trie_node*, int);
+    int BFS(dicttree*);
+    int DFS(dicttree*);
+    int DFS(dicttree*, int);
    
   public:                                        // PUBLIC FIELDS
-    trie_node(bool isWord = false);              // CONSTRUCTOR
-    ~trie_node();                                // DESCTRUCTOR    
+    dicttree(bool isWord = false);              // CONSTRUCTOR
+    ~dicttree();                                // DESCTRUCTOR    
 
-    void setword(bool);                          // FUNCTION PROTOTYPE
-    bool getword();                              // FUNCTION PROTOTYPE
+    void setword(bool);
+    bool  getword();
     void insertme(std::string);                  // FUNCTION PROTOTYPE
     int  searchme(std::string);                  // FUNCTION PROTOTYPE
 };

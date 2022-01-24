@@ -1,32 +1,27 @@
 /**
  * This Program was written by:
  * 
- * Garrett O'Hara cssc1136 RedId: 822936303
+ * Garrett O'Hara cssc3724 RedId: 822936303
  * 
  * CS 480 | Professor Shen | January 2022
  **/
-
-// SOURCE FILE
-#include "dicttree.h"
 #include <ios>
-#include <iostream>
-//#define size = 27
-
 #include <stack>
 #include <queue>
+#include <iostream>
+#include "dicttree.h"
 
 using namespace std;
 
 /* CONSTRUCTOR */
-trie_node::trie_node(bool isWord) {
+dicttree::dicttree(bool isWord) {
     for(int i = 0; i < size; i++){
         this->character[i] = nullptr;
     }
 }
 
 /* DECONSTRUCTOR */
-trie_node::~trie_node() {
-    // cout << "DECONSTRUCTING NODE" << endl;
+dicttree::~dicttree() {
     for(int i = 0; i < size; i++){
         if(character[i]!=nullptr)
             delete character[i];
@@ -34,49 +29,48 @@ trie_node::~trie_node() {
 }
 
 /* SETTER */
-void trie_node::setword(bool isWord){
+void dicttree::setword(bool isWord){
     this->isWord = isWord;
 }
 
 /* GETTER */
-bool trie_node::getword(){
+bool dicttree::getword(){
     return this->isWord;
 }
 
 int static proccesschar(char ch, int size){
     char tmp = ch;
-    if(tmp == 39){
+    if(tmp == '\''){
         tmp = size-1;
     } else {
         tmp = tolower(ch)-'a';
     }
     return tmp;
 }
+int static proccesscharin(char ch, int size){
+    char tmp = ch;
+    if(tmp == '\''){
+        tmp = size-1;
+    } else {
+        tmp = ch -'a';
+    }
+    return tmp;
+}
 
 /* INSERT WORD */
-void trie_node::insertme(string token){
-    trie_node* node = this;
+void dicttree::insertme(string token){
+    dicttree* node = this;
     for(int i = 0; i < token.length(); i++){
         
         /* PROCESS CHARACTER */
-        //int tmp = proccesschar(token[i],size);
-        char tmp = token[i];
-        if(tmp == 39){
-            tmp = size-1;
-        } else {
-            tmp = tolower(token[i])-'a';
-        }
+        int tmp = proccesscharin(token[i],size);
+        
         
         /* CONSTRUCT NEW NODE IF NULL */
         if(node->character[tmp] == nullptr){
-            node->character[tmp] = new trie_node();
+            node->character[tmp] = new dicttree();
         }
 
-        // for(int i = 0; i < size; i++){
-        //     cout << node->character[tmp] << endl;
-        // }
-        // cout << node->character[tmp] << " " << token[i] << " : " << int(tmp) << endl;        
-        //cout << token[i] << " : " << tmp << endl;
         /* MOVE TO NEW NODE */
         node = node->character[tmp];
 
@@ -84,44 +78,36 @@ void trie_node::insertme(string token){
     
     /* SET END OF WORD */
     node->setword(true);
-    // cout << "INSERTED: " << token << "\n" << endl;
 }
 
-/* COUNT WITH DEPTH FIRST SEARCH */
-int trie_node::DFS(trie_node* root, int count, int size){
+/* RECURSIVE DEPTH FIRST SEARCH */
+int dicttree::DFS(dicttree* root){
     if(root==nullptr)
-        return count;
-
+        return 0;
+    int sum = 0;
     if(root->getword())
-        count++;
+        sum++;
 
     int words = 0;
-    for(int i = 0; i < size; i++){
-        //cout << "COUNT: " << count << " SEARCHING: " << i <<  " ADDY: " << root->character[i] << endl;
-        
+    for(int i = 0; i < size; i++){        
         if(root->character[i]!=nullptr){
-            // cout << "SEARCHING" << endl;
-            //root = root->character[i];
-            // count+=trie_node::DFS(root, count, size);
-        
-            return trie_node::DFS(root->character[i], count, size);
+            sum += DFS(root->character[i]);
         }
     }
-    //cout << "WORDS: " << words << endl;
-    return count;
+    return sum;
 }
 
-/* ITERATIVE APPROACH */
-int trie_node::DFS(trie_node* root, int size){
-    int count = 0;
-    stack<trie_node*> stack;
+/* ITERATIVE DEPTH FIRST SEARCH */
+int dicttree::DFS(dicttree* root, int count){
+    
+    stack<dicttree*> stack;
     stack.push(root);
     // for(int i = 0; i < size; i++){
     //     if(root->character[i]!=nullptr)
     //         stack.push(root->character[i]);
     // }
     while(!stack.empty()){
-        trie_node* root = stack.top();
+        dicttree* root = stack.top();
         //root = stack.top();
         if(root->isWord)
             count++;
@@ -137,9 +123,9 @@ int trie_node::DFS(trie_node* root, int size){
 }
 
 /* ITERATIVE BREADTH FIRST SEARCH USING A QUEUE */
-int trie_node::BFS(trie_node* root, int size){
+int dicttree::BFS(dicttree* root){
     int count = 0;
-    queue<trie_node*> q;
+    queue<dicttree*> q;
     q.push(root);
     while(!q.empty()){
         root = q.front();
@@ -157,18 +143,15 @@ int trie_node::BFS(trie_node* root, int size){
 
 
 /* SEARCH OCCURANCES OF PREFIX IN TREE */
-int trie_node::searchme(string token){
-    trie_node* node = this;
+int dicttree::searchme(string token){
+    dicttree* node = this;
     int count = 0;
     
     /* CRAWL T0 END OF PREFIX */
     for(int i = 0; i < token.length(); i++){
         //cout << "NODE AT: " << token[i] << " ";
-
         int tmp = proccesschar(token[i],size);
-
         //cout << tmp << endl;
-
 
         /* IF IT DOESN'T EXIST RETURN COUNT OF 0 */
         if(node->character[tmp]==nullptr)
@@ -177,19 +160,7 @@ int trie_node::searchme(string token){
         /* GO TO NEXT CHARACTER IN PREFIX */    
         node = node->character[tmp];
     }
-    //cout << "\n\nSTARTING DFS\n\n" << endl;
-
-    /* USE DFS TO COUNT WORDS WITH PREFIX */
-    // for(int i = 0; i < size; i++){
-    //     int words = 0;
-    //     // if(node->character[i] != nullptr)
-    //     //     count += DFS(node->character[i], words, size);
-    //     count += DFS(node->character[i], count, size);
-    // }
-    // return count;
-
-    /* RETURN COUNT OF PREFIX */
-    //return count;
-    //return DFS(node, count, size);
-    return BFS(node, size);
+    
+    return DFS(node);
+    //return BFS(node);
 }
